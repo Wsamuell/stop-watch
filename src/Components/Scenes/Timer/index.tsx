@@ -16,39 +16,25 @@ const Timer = ({}: Props) => {
   const [minutes, setMinutes] = React.useState<TimerProps['minutes']>(0);
   const [seconds, setSeconds] = React.useState<TimerProps['seconds']>(0);
   const [timerState, setTimerState] = React.useState(TimerState.Stopped);
+  const [startTime, setStartTime] = React.useState<number | null>(0);
   const DisabledState = hours === 0 && minutes === 0 && seconds === 0;
 
   const duration = convertToDuration({ hours, minutes, seconds });
-  // const startTimer = () => {
-  //   setTimerState(TimerState.Running);
-  // };
 
-  console.log(convertToDuration({ hours, minutes, seconds }));
+  const startTimer = () => {
+    setTimerState(TimerState.Running);
+    setStartTime(Date.now());
+  };
 
-  // useEffect(() => {
-  //   const updateTimer = () => {
-  //     if (hours === 0 && minutes === 0 && seconds === 0) {
-  //       clearInterval(intervalId);
-  //       // Timer finished, do something here if needed
-  //     } else {
-  //       if (seconds === 0) {
-  //         if (minutes === 0) {
-  //           setHours((prev) => prev - 1);
-  //           setMinutes(59);
-  //         } else {
-  //           setMinutes((prev) => prev - 1);
-  //         }
-  //         setSeconds(59);
-  //       } else {
-  //         setSeconds((prev) => prev - 1);
-  //       }
-  //     }
-  //   };
-  //   const intervalId = setInterval(updateTimer, 1000);
+  useEffect(() => {
+    if (TimerState.Running) {
+      const timeElapsed = Date.now() - (startTime || 0);
+      const timeRemaining = setInterval(() => {
+        duration.getSeconds - timeElapsed / 1000;
+      }, 1000);
+    }
+  }, []);
 
-  //   // Cleanup the interval when the component is unmounted
-  //   return () => clearInterval(intervalId);
-  // }, [hours, minutes, seconds]);
   return (
     <FlexColumn styles="p-3 items-center">
       {timerState === TimerState.Stopped && (
@@ -74,18 +60,34 @@ const Timer = ({}: Props) => {
         </FlexRow>
       )}
       {timerState === TimerState.Running && (
-        <FlexRow styles="text-8xl">
+        <FlexRow styles="">
           {duration.getDays > 0 && (
             <Fragment>
-              <TimerComponentBox>{duration.getDays}</TimerComponentBox>
+              <TimerComponentBox
+                description={`${duration.getDays > 1 ? 'DAYS' : 'DAY'}`}
+              >
+                {duration.getDays}
+              </TimerComponentBox>
               <TimerDot />
             </Fragment>
           )}
-          <TimerComponentBox>{duration.getHours}</TimerComponentBox>
+          <TimerComponentBox
+            description={`${duration.getHours > 1 ? 'HOURS' : 'HOUR'}`}
+          >
+            {duration.getHours}
+          </TimerComponentBox>
           <TimerDot />
-          <TimerComponentBox>{duration.getMinutes}</TimerComponentBox>
+          <TimerComponentBox
+            description={`${duration.getMinutes > 1 ? 'MINUTES' : 'MINUTE'}`}
+          >
+            {duration.getMinutes}
+          </TimerComponentBox>
           <TimerDot />
-          <TimerComponentBox>{duration.getSeconds}</TimerComponentBox>
+          <TimerComponentBox
+            description={`${duration.getSeconds > 1 ? 'SECONDS' : 'SECOND'}`}
+          >
+            {duration.getSeconds}
+          </TimerComponentBox>
         </FlexRow>
       )}
       <FlexRow styles="w-1/2 justify-between">
@@ -96,7 +98,7 @@ const Timer = ({}: Props) => {
         />
 
         <Button
-          onClick={() => setTimerState(TimerState.Running)}
+          onClick={startTimer}
           children="Start"
           disabled={DisabledState}
         />
