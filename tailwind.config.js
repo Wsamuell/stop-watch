@@ -9,6 +9,10 @@ export default {
         tertiary: '#3F3F3F',
         quaternary: '#4F4F4F',
       },
+      backgroundImage: (theme) => ({
+        'light-mode': "url('./src/assets/light-bg.jpg')",
+        'dark-mode': "url('./src/assets/dark-bg.jpg')",
+      }),
     },
   },
   plugins: [],

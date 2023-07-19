@@ -4,7 +4,7 @@ interface ButtonProps {
   onClick: () => void;
   size?: ButtonSize;
   style?: string;
-  text: string;
+  children?: React.ReactNode | string;
   color?: ButtonColor;
 }
 
@@ -13,13 +13,12 @@ const Button = ({
   onClick,
   size = ButtonSize.Medium,
   style,
-  text,
+  children,
   color = ButtonColor.Primary,
 }: ButtonProps) => {
-  const sizeType = size ? `btn-${size}` : 'BKMRK-defaultbtnCOlor';
   return (
-    <button className={`${style} ${sizeType} ${color}`} onClick={onClick}>
-      {text}
+    <button className={`${style} ${size} ${color}`} onClick={onClick}>
+      {children}
     </button>
   );
 };

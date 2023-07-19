@@ -1,17 +1,18 @@
 export enum ButtonSize {
   XSmall = 'xsmall',
   Small = 'small',
-  Medium = 'medium',
+  Medium = 'py-2 px-2',
   Large = 'large',
   XLarge = 'xlarge',
   XXLarge = 'xlarge',
 }
 
 export enum ButtonColor {
-  Primary = 'primary',
-  Secondary = 'secondary',
-  Success = 'success',
-  Danger = 'danger',
-  Warning = 'warning',
-  Info = 'info',
+  Primary = 'text-primary',
+  Secondary = 'text-secondary',
+}
+
+export enum ThemeMode {
+  Light = 'Light',
+  Dark = 'Dark',
 }
