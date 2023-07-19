@@ -16,3 +16,9 @@ export enum ThemeMode {
   Light = 'Light',
   Dark = 'Dark',
 }
+
+export enum TimerState {
+  Running = 'Running',
+  Paused = 'Paused',
+  Stopped = 'Stopped',
+}

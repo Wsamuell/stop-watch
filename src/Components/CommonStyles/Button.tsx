@@ -6,6 +6,7 @@ interface ButtonProps {
   style?: string;
   children?: React.ReactNode | string;
   color?: ButtonColor;
+  disabled?: boolean;
 }
 
 // BKMRK: Button styling and Enum is broken
@@ -15,9 +16,14 @@ const Button = ({
   style,
   children,
   color = ButtonColor.Primary,
+  disabled = false,
 }: ButtonProps) => {
   return (
-    <button className={`${style} ${size} ${color}`} onClick={onClick}>
+    <button
+      disabled={disabled}
+      className={`${style} ${size} ${color}`}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

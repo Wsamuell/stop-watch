@@ -10,8 +10,8 @@ const App = () => {
   return (
     //BKMRK: fix bg opacity later
     <div
-      className={`h-screen bg-cover bg-center backdrop-blur-sm ${
-        currentMode === ThemeMode.Light ? 'bg-dark-mode' : 'bg-light-mode'
+      className={`h-screen bg-cover bg-center ${
+        currentMode === ThemeMode.Light ? 'bg-light-mode' : 'bg-dark-mode'
       }`}
     >
       <NavBar currentMode={currentMode} setCurrentMode={setCurrentMode} />

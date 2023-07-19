@@ -10,12 +10,11 @@ type Props = {
 
 const Input = ({ childText, value, placeholder = '00', onChange }: Props) => {
   return (
-    <FlexColumn styles="items-center p-3 border rounded bg-white m-3">
+    <FlexColumn styles="items-center p-3 border rounded bg-white m-3 opacity-75">
       <input
         className="w-20 h-20 text-center outline-none"
-        type="text"
+        type="number"
         value={value}
-        pattern="[0-9]{0,2}"
         placeholder={placeholder}
         onChange={onChange}
         maxLength={2}
