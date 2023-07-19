@@ -1,19 +1,7 @@
-import FlexColumn from './Components/CommonStyles/FlexColumn';
-import FlexRow from './Components/CommonStyles/FlexRow';
+import Timer from './Components/Timer';
 
-function App() {
-  return (
-    <>
-      <FlexColumn>
-        <div>1</div>
-        <div>2</div>
-      </FlexColumn>
-      <FlexRow>
-        <div>1</div>
-        <div>2</div>
-      </FlexRow>
-    </>
-  );
-}
+const App = () => {
+  return <Timer />;
+};
 
 export default App;
