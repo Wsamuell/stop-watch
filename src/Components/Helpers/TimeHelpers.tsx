@@ -1,7 +1,13 @@
 import { TimerProps } from './Interfaces';
 
-export const convertToDuration = ({ hours, minutes, seconds }: TimerProps) => {
-  const getTotalInSeconds = hours * 3600 + minutes * 60 + seconds;
+export const convertToDuration = ({
+  days,
+  hours,
+  minutes,
+  seconds,
+}: TimerProps) => {
+  const getTotalInSeconds =
+    days * 86400 + hours * 3600 + minutes * 60 + seconds;
   const getDays = Math.floor(getTotalInSeconds / 86400);
   const remainingSecondsAfterDays = getTotalInSeconds % 86400;
 

@@ -12,6 +12,7 @@ import TimerDot from '../../CommonStyles/TimerDot';
 type Props = {};
 
 const Timer = ({}: Props) => {
+  const [days, setDays] = React.useState<TimerProps['days']>(0);
   const [hours, setHours] = React.useState<TimerProps['hours']>(0);
   const [minutes, setMinutes] = React.useState<TimerProps['minutes']>(0);
   const [seconds, setSeconds] = React.useState<TimerProps['seconds']>(0);
@@ -19,26 +20,37 @@ const Timer = ({}: Props) => {
   const [startTime, setStartTime] = React.useState<number | null>(0);
   const DisabledState = hours === 0 && minutes === 0 && seconds === 0;
 
-  const duration = convertToDuration({ hours, minutes, seconds });
+  const duration = convertToDuration({ days, hours, minutes, seconds });
 
   const startTimer = () => {
+    console.log(duration);
+    setDays(duration.getDays);
+    setHours(duration.getHours);
+    setMinutes(duration.getMinutes);
+    setSeconds(duration.getSeconds);
     setTimerState(TimerState.Running);
     setStartTime(Date.now());
   };
 
-  useEffect(() => {
-    if (TimerState.Running) {
-      const timeElapsed = Date.now() - (startTime || 0);
-      const timeRemaining = setInterval(() => {
-        duration.getSeconds - timeElapsed / 1000;
-      }, 1000);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (TimerState.Running) {
+  //     const timeElapsed = Date.now() - (startTime || 0);
+  //     const timeRemaining = setInterval(() => {
+  //       duration.getSeconds - timeElapsed / 1000;
+  //     }, 1000);
+  //   }
+  // }, []);
 
   return (
     <FlexColumn styles="p-3 items-center">
       {timerState === TimerState.Stopped && (
         <FlexRow styles="">
+          <Input
+            childText="Days"
+            value={days}
+            onChange={(event) => setDays(Number(event.target.value))}
+            placeholder="00"
+          />
           <Input
             childText="Hours"
             value={hours}

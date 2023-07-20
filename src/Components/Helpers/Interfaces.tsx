@@ -1,5 +1,5 @@
 export interface TimerProps {
-  days?: number;
+  days: number;
   hours: number;
   minutes: number;
   seconds: number;
