@@ -12,7 +12,7 @@ const App = () => {
     <div
       className={`h-screen bg-cover bg-center ${
         currentMode === ThemeMode.Light ? 'bg-light-mode' : 'bg-dark-mode'
-      }`}
+      } `} // BKMRK: I dont think we need opacity but opacity-80 seems fine
     >
       <NavBar currentMode={currentMode} setCurrentMode={setCurrentMode} />
       <Time />

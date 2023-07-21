@@ -18,6 +18,7 @@ export enum ThemeMode {
 }
 
 export enum TimerState {
+  Select = 'Select',
   Running = 'Running',
   Paused = 'Paused',
   Stopped = 'Stopped',

@@ -18,5 +18,5 @@ export const convertToDuration = ({
   const remainingSecondsAfterMinutes = remainingSecondsAfterDays % 60;
 
   const getSeconds = Math.floor(remainingSecondsAfterMinutes % 60);
-  return { getDays, getHours, getMinutes, getSeconds };
+  return { getTotalInSeconds, getDays, getHours, getMinutes, getSeconds };
 };

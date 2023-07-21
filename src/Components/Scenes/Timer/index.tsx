@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Input from '../../CommonStyles/Input';
 import FlexRow from '../../CommonStyles/FlexRow';
 import FlexColumn from '../../CommonStyles/FlexColumn';
@@ -16,34 +16,88 @@ const Timer = ({}: Props) => {
   const [hours, setHours] = React.useState<TimerProps['hours']>(0);
   const [minutes, setMinutes] = React.useState<TimerProps['minutes']>(0);
   const [seconds, setSeconds] = React.useState<TimerProps['seconds']>(0);
-  const [timerState, setTimerState] = React.useState(TimerState.Stopped);
-  const [startTime, setStartTime] = React.useState<number | null>(0);
-  const DisabledState = hours === 0 && minutes === 0 && seconds === 0;
+  const [timerState, setTimerState] = React.useState(TimerState.Select);
+  const [startTime, setStartTime] = React.useState<number>(0);
+  const [intervalId, setIntervalId] = React.useState<number | null>(null);
 
-  const duration = convertToDuration({ days, hours, minutes, seconds });
+  const DisabledState =
+    days === 0 && hours === 0 && minutes === 0 && seconds === 0;
 
-  const startTimer = () => {
-    console.log(duration);
-    setDays(duration.getDays);
-    setHours(duration.getHours);
-    setMinutes(duration.getMinutes);
-    setSeconds(duration.getSeconds);
+  const duration = convertToDuration({
+    totalSeconds: getTotalInSeconds as number,
+    days: days as number, // Cast to non-nullable types
+    hours: hours as number,
+    minutes: minutes as number,
+    seconds: seconds as number,
+  });
+  // const getTotalInSeconds = (duration: TimerProps) => {
+  //   return (
+  //     duration.days * 86400 +
+  //     duration.hours * 3600 +
+  //     duration.minutes * 60 +
+  //     duration.seconds
+  //   );
+  // };
+
+  const handleStart = () => {
     setTimerState(TimerState.Running);
     setStartTime(Date.now());
+    requestAnimationFrame(updateTimer);
   };
 
-  // useEffect(() => {
-  //   if (TimerState.Running) {
-  //     const timeElapsed = Date.now() - (startTime || 0);
-  //     const timeRemaining = setInterval(() => {
-  //       duration.getSeconds - timeElapsed / 1000;
-  //     }, 1000);
-  //   }
-  // }, []);
+  const handleCancel = () => {
+    setTimerState(TimerState.Select);
+    setDays(0);
+    setHours(0);
+    setMinutes(0);
+    setSeconds(0);
+    if (intervalId !== null) {
+      cancelAnimationFrame(intervalId);
+      setIntervalId(null);
+    }
+  };
+  const time = new Date();
+  // const currentTime = Date.now();
+  // const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+  console.log(time);
+  // console.log(elapsedTime);
+
+  const updateTimer = () => {
+    const currentTime = Date.now();
+    const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+
+    const countdownDuration = convertToDuration({
+      // getTotalInSeconds: getTotalInSeconds as number,
+      days: days as number, // Cast to non-nullable types
+      hours: hours as number,
+      minutes: minutes as number,
+      seconds: seconds as number,
+    });
+
+    const remainingTimeInSeconds =
+      countdownDuration - getTotalInSeconds(elapsedTime);
+
+    if (remainingTimeInSeconds > 0) {
+      const remainingDuration = convertToDuration({
+        seconds: remainingTimeInSeconds,
+      });
+
+      setDays(remainingDuration.getDays);
+      setHours(remainingDuration.getHours);
+      setMinutes(remainingDuration.getMinutes);
+      setSeconds(remainingDuration.getSeconds);
+
+      setIntervalId(requestAnimationFrame(updateTimer));
+    } else {
+      handleCancel(); // Countdown finished, reset the timer
+    }
+  };
+
+  // BKMRK: actaully i think it would be smart to use requestAnimationFrame so ill focus on that
 
   return (
     <FlexColumn styles="p-3 items-center">
-      {timerState === TimerState.Stopped && (
+      {timerState === TimerState.Select && (
         <FlexRow styles="">
           <Input
             childText="Days"
@@ -71,7 +125,7 @@ const Timer = ({}: Props) => {
           />
         </FlexRow>
       )}
-      {timerState === TimerState.Running && (
+      {timerState !== TimerState.Select && (
         <FlexRow styles="">
           {duration.getDays > 0 && (
             <Fragment>
@@ -104,13 +158,13 @@ const Timer = ({}: Props) => {
       )}
       <FlexRow styles="w-1/2 justify-between">
         <Button
-          onClick={() => setTimerState(TimerState.Stopped)}
+          onClick={() => console.log('Cancel')}
           children="Cancel"
           disabled={DisabledState}
         />
 
         <Button
-          onClick={startTimer}
+          onClick={() => console.log('Start')}
           children="Start"
           disabled={DisabledState}
         />

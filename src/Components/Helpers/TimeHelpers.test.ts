@@ -11,6 +11,7 @@ describe('convertToDuration', () => {
     };
 
     const expectedDuration = {
+      getTotalInSeconds: 95415,
       getDays: 1,
       getHours: 2,
       getMinutes: 30,
@@ -31,6 +32,7 @@ describe('convertToDuration', () => {
     };
 
     const expectedDuration = {
+      getTotalInSeconds: 0,
       getDays: 0,
       getHours: 0,
       getMinutes: 0,
@@ -51,6 +53,7 @@ describe('convertToDuration', () => {
     };
 
     const expectedDuration = {
+      getTotalInSeconds: 962465, //BKMRK: im going to double check this later
       getDays: 11,
       getHours: 3,
       getMinutes: 21,

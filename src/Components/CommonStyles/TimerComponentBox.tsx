@@ -1,4 +1,3 @@
-import React from 'react';
 import FlexColumn from './FlexColumn';
 
 type Props = {
