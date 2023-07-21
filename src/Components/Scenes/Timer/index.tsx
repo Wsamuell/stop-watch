@@ -5,31 +5,26 @@ import FlexColumn from '../../CommonStyles/FlexColumn';
 import Button from '../../CommonStyles/Button';
 import { TimerState } from '../../Helpers/Enums';
 import { TimerProps } from '../../Helpers/Interfaces';
-import { convertToDuration } from '../../Helpers/TimeHelpers';
+import {
+  convertToDuration,
+  dayString,
+  hourString,
+  minuteString,
+  secondString,
+} from '../../Helpers/TimeHelpers';
 import TimerComponentBox from '../../CommonStyles/TimerComponentBox';
 import TimerDot from '../../CommonStyles/TimerDot';
+import ProgressBar from '../../CommonStyles/ProgressBar';
 
 type Props = {};
-{
-  /* <div className="flex flex-col items-center p-3">
-            <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-              <div
-                className="bg-blue-600 text-xs font-medium text-blue-100 text-center leading-none rounded-full"
-                style={{ width: `${progress}%` }}
-              >
-                {Math.floor(progress)}%
-              </div>
-            </div>
-          </div>{' '} // BKMRK fix progress bar later
-         */
-}
+
 const Timer = ({}: Props) => {
   const [days, setDays] = useState<TimerProps['days']>(0);
   const [hours, setHours] = useState<TimerProps['hours']>(0);
   const [minutes, setMinutes] = useState<TimerProps['minutes']>(0);
   const [seconds, setSeconds] = useState<TimerProps['seconds']>(0);
   const [timerState, setTimerState] = useState(TimerState.Select);
-  const [startTime, setStartTime] = useState<number>(0);
+  const [startTime, setStartTime] = useState<Date>(new Date());
   const [remainingTime, setRemainingTime] = useState<TimerProps['seconds']>(0);
   const [originalTimePriorToClear, setOriginalTimePriorToClear] =
     useState<TimerProps['seconds']>(0);
@@ -45,15 +40,25 @@ const Timer = ({}: Props) => {
     minutes: minutes as number,
     seconds: seconds as number,
   });
-  // const progress =
-  //   ((duration.getTotalInSeconds - remainingTime)
-  //     duration.getTotalInSeconds) *
-  //   100;
-
+  const timerProgress =
+    ((originalTimePriorToClear - remainingTime) / originalTimePriorToClear) *
+    100;
+  const showOriginalTimePriorToClear = () => {
+    const resetTimer = convertToDuration({
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: originalTimePriorToClear,
+    });
+    setDays(resetTimer.getDays);
+    setHours(resetTimer.getHours);
+    setMinutes(resetTimer.getMinutes);
+    setSeconds(resetTimer.getSeconds);
+  };
   const handleStartOrPause = (timerState: TimerState) => {
     if (timerState === TimerState.Select) {
       setTimerState(TimerState.Running);
-      setStartTime(Date.now());
+      setStartTime(new Date());
       setRemainingTime(duration.getTotalInSeconds);
     } else if (timerState === TimerState.Running) {
       setTimerState(TimerState.Select);
@@ -74,16 +79,7 @@ const Timer = ({}: Props) => {
       setSeconds(0);
     } else if (timerState === TimerState.Running) {
       setTimerState(TimerState.Stopped);
-      const resetTimer = convertToDuration({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: originalTimePriorToClear,
-      });
-      setDays(resetTimer.getDays);
-      setHours(resetTimer.getHours);
-      setMinutes(resetTimer.getMinutes);
-      setSeconds(resetTimer.getSeconds);
+      showOriginalTimePriorToClear();
     }
     if (intervalId !== null) {
       setIntervalId(null);
@@ -92,6 +88,7 @@ const Timer = ({}: Props) => {
 
   useEffect(() => {
     if (timerState !== TimerState.Running || remainingTime === 0) {
+      showOriginalTimePriorToClear();
       return setTimerState(TimerState.Select);
     }
 
@@ -128,25 +125,25 @@ const Timer = ({}: Props) => {
       {timerState === TimerState.Select && (
         <FlexRow styles="">
           <Input
-            childText={`${days > 1 ? 'DAYS' : 'DAY'}`}
+            childText={dayString(days)}
             value={days}
             onChange={(event) => setDays(Number(event.target.value))}
             placeholder="00"
           />
           <Input
-            childText={`${hours > 1 ? 'HOURS' : 'HOUR'}`}
+            childText={hourString(hours)}
             value={hours}
             onChange={(event) => setHours(Number(event.target.value))}
             placeholder="00"
           />
           <Input
-            childText={`${minutes > 1 ? 'MINUTES' : 'MINUTE'}`}
+            childText={minuteString(minutes)}
             value={minutes}
             onChange={(event) => setMinutes(Number(event.target.value))}
             placeholder="30"
           />
           <Input
-            childText={`${seconds > 1 ? 'SECONDS' : 'SECOND'}`}
+            childText={secondString(seconds)}
             value={seconds}
             onChange={(event) => setSeconds(Number(event.target.value))}
             placeholder="00"
@@ -154,33 +151,34 @@ const Timer = ({}: Props) => {
         </FlexRow>
       )}
       {timerState !== TimerState.Select && (
-        <FlexRow>
+        <FlexColumn>
           <FlexRow styles="">
             {duration.getDays > 0 && (
               <Fragment>
-                <TimerComponentBox description={`${days > 1 ? 'DAYS' : 'DAY'}`}>
+                <TimerComponentBox description={dayString(days)}>
                   {days}
                 </TimerComponentBox>
                 <TimerDot />
               </Fragment>
             )}
-            <TimerComponentBox description={`${hours > 1 ? 'HOURS' : 'HOUR'}`}>
+            <TimerComponentBox description={hourString(hours)}>
               {hours}
             </TimerComponentBox>
             <TimerDot />
-            <TimerComponentBox
-              description={`${minutes > 1 ? 'MINUTES' : 'MINUTE'}`}
-            >
+            <TimerComponentBox description={minuteString(minutes)}>
               {minutes}
             </TimerComponentBox>
             <TimerDot />
-            <TimerComponentBox
-              description={`${seconds > 1 ? 'SECONDS' : 'SECOND'}`}
-            >
+            <TimerComponentBox description={secondString(seconds)}>
               {seconds}
             </TimerComponentBox>
           </FlexRow>
-        </FlexRow>
+          <ProgressBar progress={timerProgress} />
+
+          <div className="opacity-70 font-light text-xs italic">
+            Start Time: {startTime.toLocaleTimeString()}
+          </div>
+        </FlexColumn>
       )}
       <FlexRow styles="w-1/2 justify-between">
         <Button

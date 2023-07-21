@@ -21,3 +21,10 @@ export const convertToDuration = ({
   const getSeconds = Math.floor(remainingSecondsAfterMinutes % 60);
   return { getTotalInSeconds, getDays, getHours, getMinutes, getSeconds };
 };
+
+export const dayString = (days: number) => `${days > 1 ? 'DAYS' : 'DAY'}`;
+export const hourString = (hours: number) => `${hours > 1 ? 'HOURS' : 'HOUR'}`;
+export const minuteString = (minutes: number) =>
+  `${minutes > 1 ? 'MINUTES' : 'MINUTE'}`;
+export const secondString = (seconds: number) =>
+  `${seconds > 1 ? 'SECONDS ' : 'SECOND'} `;
