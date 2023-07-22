@@ -3,8 +3,9 @@ import FlexRow from '../../CommonStyles/FlexRow';
 import { SunIcon } from '@heroicons/react/20/solid';
 import { MoonIcon } from '@heroicons/react/24/outline';
 import Logo from '../../../assets/Images/logo.png';
-import { ButtonSize, ThemeMode } from '../../Helpers/Enums';
+import { ThemeMode } from '../../Helpers/Enums';
 import FlexColumn from '../../CommonStyles/FlexColumn';
+import { textColorMode } from '../../CommonStyles/ColorTheme';
 
 type Props = {
   currentMode: ThemeMode;
@@ -18,14 +19,6 @@ const NavBar = ({ currentMode, setCurrentMode }: Props) => {
     );
   };
 
-  const textColorMode = (currentMode: ThemeMode) => {
-    switch (currentMode) {
-      case ThemeMode.Light:
-        return 'lightModeBlack';
-      case ThemeMode.Dark:
-        return 'white';
-    }
-  };
   return (
     <FlexRow
       styles={`justify-between items-center p-4 text-${textColorMode(

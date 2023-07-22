@@ -13,7 +13,7 @@ const App = () => {
     //BKMRK: fix bg opacity later
     <div className={`h-screen bg-cover bg-center ${bgMode}`}>
       <NavBar currentMode={currentMode} setCurrentMode={setCurrentMode} />
-      <Time />
+      <Time currentMode={currentMode} />
       <Timer />
     </div>
   );
