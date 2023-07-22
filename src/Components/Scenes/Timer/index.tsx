@@ -89,13 +89,13 @@ const Timer = ({}: Props) => {
   };
 
   const handleStartOrPause = (timerState: TimerState) => {
-    console.log('timerState', timerState);
     switch (timerState) {
       case TimerState.Select:
         setTimerState(TimerState.Running);
         setStartTime(new Date());
         setRemainingTime(duration.getTotalInSeconds);
         setOriginalTimePriorToClear(duration.getTotalInSeconds);
+
         break;
       case TimerState.Running:
         setTimerState(TimerState.Paused);
@@ -111,14 +111,11 @@ const Timer = ({}: Props) => {
         audio.currentTime = 0;
         setAudioStatus(MusicStatus.Paused);
         break;
-      default:
-        break;
     }
 
     if (intervalId !== null) {
       setIntervalId(null);
     }
-    console.log('testing pause');
   };
 
   const handleClearOrCancel = (timerState: TimerState) => {
@@ -128,8 +125,6 @@ const Timer = ({}: Props) => {
         audio.currentTime = 0;
         setAudioStatus(MusicStatus.Paused);
         return;
-      default: // I think this is unreachable
-        break;
     }
     switch (timerState) {
       case TimerState.Select:
@@ -146,11 +141,7 @@ const Timer = ({}: Props) => {
         setTimerState(TimerState.Select);
         showOriginalTimePriorToClear();
         break;
-
-      default: // I think this is unreachable
-        break;
     }
-    console.log('testing clear');
     if (intervalId !== null) {
       setIntervalId(null);
     }
@@ -160,14 +151,16 @@ const Timer = ({}: Props) => {
     if (timerState !== TimerState.Running && remainingTime === 0) {
       showOriginalTimePriorToClear();
       setTimerCompleted(true);
-      if (timerCompleted) {
-        audio.play();
-        setAudioStatus(MusicStatus.Playing);
-      } else {
-        audio.pause();
-        setAudioStatus(MusicStatus.Paused);
+      switch (timerCompleted) {
+        case true:
+          audio.play();
+          setAudioStatus(MusicStatus.Playing);
+          break;
+        case false:
+          audio.pause();
+          audio.currentTime = 0;
+          setAudioStatus(MusicStatus.Paused);
       }
-      return setTimerState(TimerState.Select);
     }
 
     const intervalId = window.setInterval(() => {
