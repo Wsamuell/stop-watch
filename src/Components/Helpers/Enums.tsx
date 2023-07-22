@@ -16,6 +16,10 @@ export enum ThemeMode {
   Light = 'Light',
   Dark = 'Dark',
 }
+export enum MusicStatus {
+  Playing = 'Playing',
+  Paused = 'Paused',
+}
 
 export enum TimerState {
   Select = 'Select',

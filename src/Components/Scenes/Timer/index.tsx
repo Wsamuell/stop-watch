@@ -1,9 +1,9 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useMemo } from 'react';
 import Input from '../../CommonStyles/Input';
 import FlexRow from '../../CommonStyles/FlexRow';
 import FlexColumn from '../../CommonStyles/FlexColumn';
 import Button from '../../CommonStyles/Button';
-import { TimerState } from '../../Helpers/Enums';
+import { MusicStatus, TimerState } from '../../Helpers/Enums';
 import { TimerProps } from '../../Helpers/Interfaces';
 import {
   convertToDuration,
@@ -15,6 +15,7 @@ import {
 import TimerComponentBox from '../../CommonStyles/TimerComponentBox';
 import TimerDot from '../../CommonStyles/TimerDot';
 import ProgressBar from '../../CommonStyles/ProgressBar';
+import Serenity from '../../../assets/Music/Serenity.mp3';
 
 type Props = {};
 
@@ -24,15 +25,26 @@ const Timer = ({}: Props) => {
   const [minutes, setMinutes] = useState<TimerProps['minutes']>(0);
   const [seconds, setSeconds] = useState<TimerProps['seconds']>(0);
   const [timerState, setTimerState] = useState(TimerState.Select);
+  const [timerCompleted, setTimerCompleted] = useState(false);
+  const [audioStatus, setAudioStatus] = useState<MusicStatus>(
+    MusicStatus.Paused
+  );
   const [startTime, setStartTime] = useState<Date>(new Date());
   const [remainingTime, setRemainingTime] = useState<TimerProps['seconds']>(0);
   const [originalTimePriorToClear, setOriginalTimePriorToClear] =
     useState<TimerProps['seconds']>(0);
 
   const [intervalId, setIntervalId] = useState<number | null>(null);
+  const audio = useMemo(() => new Audio(Serenity), []);
 
-  const DisabledState =
+  const DisabledStateStartButton =
     days === 0 && hours === 0 && minutes === 0 && seconds === 0;
+  const DisabledStateCancelButton =
+    days === 0 &&
+    hours === 0 &&
+    minutes === 0 &&
+    seconds === 0 &&
+    audioStatus !== MusicStatus.Paused;
 
   const duration = convertToDuration({
     days: days as number,
@@ -55,6 +67,7 @@ const Timer = ({}: Props) => {
     setMinutes(resetTimer.getMinutes);
     setSeconds(resetTimer.getSeconds);
   };
+
   const handleStartOrPause = (timerState: TimerState) => {
     if (timerState === TimerState.Select) {
       setTimerState(TimerState.Running);
@@ -71,6 +84,14 @@ const Timer = ({}: Props) => {
   };
 
   const handleClearOrCancel = (timerState: TimerState) => {
+    if (audioStatus === MusicStatus.Playing) {
+      console.log(audioStatus);
+      audio.pause();
+      audio.currentTime = 0;
+      setAudioStatus(MusicStatus.Paused);
+      return;
+    }
+    console.log(audioStatus, 'second');
     if (timerState === TimerState.Select) {
       setTimerState(TimerState.Select);
       setDays(0);
@@ -87,8 +108,16 @@ const Timer = ({}: Props) => {
   };
 
   useEffect(() => {
-    if (timerState !== TimerState.Running || remainingTime === 0) {
+    if (timerState !== TimerState.Running && remainingTime === 0) {
       showOriginalTimePriorToClear();
+      setTimerCompleted(true);
+      if (timerCompleted) {
+        audio.play();
+        setAudioStatus(MusicStatus.Playing);
+      } else {
+        audio.pause();
+        setAudioStatus(MusicStatus.Paused);
+      }
       return setTimerState(TimerState.Select);
     }
 
@@ -184,13 +213,13 @@ const Timer = ({}: Props) => {
         <Button
           onClick={() => handleClearOrCancel(timerState)}
           children={timerState === TimerState.Select ? 'Clear' : 'Cancel'}
-          disabled={DisabledState}
+          disabled={DisabledStateCancelButton}
         />
 
         <Button
           onClick={() => handleStartOrPause(timerState)}
           children={timerState === TimerState.Select ? 'Start' : 'Pause'}
-          disabled={DisabledState}
+          disabled={DisabledStateStartButton}
         />
       </FlexRow>
     </FlexColumn>
