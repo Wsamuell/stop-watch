@@ -162,6 +162,10 @@ const Timer = ({}: Props) => {
           setAudioStatus(MusicStatus.Paused);
       }
     }
+    setDays(duration.getDays);
+    setHours(duration.getHours);
+    setMinutes(duration.getMinutes);
+    setSeconds(duration.getSeconds);
 
     const intervalId = window.setInterval(() => {
       setRemainingTime((prevRemainingSeconds) => {
