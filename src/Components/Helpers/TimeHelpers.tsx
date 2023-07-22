@@ -1,6 +1,5 @@
 import { TimerProps } from './Interfaces';
 
-// actually i didnt have to create this but it might be helpful later
 export const convertToDuration = ({
   days,
   hours,

@@ -198,26 +198,23 @@ const Timer = ({}: Props) => {
           <Input
             childText={dayString(days)}
             value={days}
-            onChange={(event) => setDays(Number(event.target.value))}
-            placeholder="00"
+            onChange={(newValue) => setDays(newValue)}
           />
           <Input
             childText={hourString(hours)}
             value={hours}
-            onChange={(event) => setHours(Number(event.target.value))}
-            placeholder="00"
+            onChange={(newValue) => setHours(newValue)}
           />
           <Input
             childText={minuteString(minutes)}
             value={minutes}
-            onChange={(event) => setMinutes(Number(event.target.value))}
+            onChange={(newValue) => setMinutes(newValue)}
             placeholder="30"
           />
           <Input
             childText={secondString(seconds)}
             value={seconds}
-            onChange={(event) => setSeconds(Number(event.target.value))}
-            placeholder="00"
+            onChange={(newValue) => setSeconds(newValue)}
           />
         </FlexRow>
       )}
