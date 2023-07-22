@@ -12,10 +12,10 @@ interface ButtonProps {
 // BKMRK: Button styling and Enum is broken
 const Button = ({
   onClick,
-  size = ButtonSize.Medium,
+  size,
   style,
   children,
-  color = ButtonColor.Primary,
+  color,
   disabled = false,
 }: ButtonProps) => {
   return (

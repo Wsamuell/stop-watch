@@ -5,15 +5,13 @@ import { ThemeMode } from './Components/Helpers/Enums';
 import Time from './Components/Scenes/Time';
 
 const App = () => {
-  const [currentMode, setCurrentMode] = useState(ThemeMode.Light);
+  const [currentMode, setCurrentMode] = useState<ThemeMode>(ThemeMode.Light);
+  const bgMode =
+    currentMode === ThemeMode.Light ? 'bg-light-mode' : 'bg-dark-mode';
 
   return (
     //BKMRK: fix bg opacity later
-    <div
-      className={`h-screen bg-cover bg-center ${
-        currentMode === ThemeMode.Light ? 'bg-light-mode' : 'bg-dark-mode'
-      } `} // BKMRK: I dont think we need opacity but opacity-80 seems fine
-    >
+    <div className={`h-screen bg-cover bg-center ${bgMode}`}>
       <NavBar currentMode={currentMode} setCurrentMode={setCurrentMode} />
       <Time />
       <Timer />

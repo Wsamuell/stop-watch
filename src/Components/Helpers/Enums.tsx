@@ -1,7 +1,7 @@
 export enum ButtonSize {
   XSmall = 'xsmall',
   Small = 'small',
-  Medium = 'py-2 px-2',
+  Medium = 'h-25 w-25',
   Large = 'large',
   XLarge = 'xlarge',
   XXLarge = 'xlarge',

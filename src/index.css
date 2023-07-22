@@ -1,5 +1,5 @@
-/* BKMRK: im going to add the font here later
- */
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,7 +10,7 @@ body,
 .app {
   height: 100%;
   width: 100%;
-  font-family: 'DM Sans', sans-serif; /* terrible color here */
+  font-family: 'Lilita One', sans-serif; /* terrible color here */
   @apply text-primary;
 }
 
