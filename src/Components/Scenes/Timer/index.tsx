@@ -44,7 +44,7 @@ const Timer = ({}: Props) => {
     hours === 0 &&
     minutes === 0 &&
     seconds === 0 &&
-    audioStatus !== MusicStatus.Paused;
+    audioStatus === MusicStatus.Paused;
 
   const duration = convertToDuration({
     days: days as number,
@@ -69,39 +69,68 @@ const Timer = ({}: Props) => {
   };
 
   const handleStartOrPause = (timerState: TimerState) => {
-    if (timerState === TimerState.Select) {
-      setTimerState(TimerState.Running);
-      setStartTime(new Date());
-      setRemainingTime(duration.getTotalInSeconds);
-    } else if (timerState === TimerState.Running) {
-      setTimerState(TimerState.Select);
-      setDays(duration.getDays);
-      setHours(duration.getHours);
-      setMinutes(duration.getMinutes);
-      setSeconds(duration.getSeconds);
+    console.log('timerState', timerState);
+    switch (timerState) {
+      case TimerState.Select:
+        setTimerState(TimerState.Running);
+        setStartTime(new Date());
+        setRemainingTime(duration.getTotalInSeconds);
+        setOriginalTimePriorToClear(duration.getTotalInSeconds);
+        break;
+      case TimerState.Running:
+        setTimerState(TimerState.Paused);
+
+        break;
+      case TimerState.Paused:
+        setTimerState(TimerState.Running);
+        break;
     }
-    setOriginalTimePriorToClear(duration.getTotalInSeconds);
+    switch (audioStatus) {
+      case MusicStatus.Playing:
+        audio.pause();
+        audio.currentTime = 0;
+        setAudioStatus(MusicStatus.Paused);
+        break;
+      default:
+        break;
+    }
+
+    if (intervalId !== null) {
+      setIntervalId(null);
+    }
+    console.log('testing pause');
   };
 
   const handleClearOrCancel = (timerState: TimerState) => {
-    if (audioStatus === MusicStatus.Playing) {
-      console.log(audioStatus);
-      audio.pause();
-      audio.currentTime = 0;
-      setAudioStatus(MusicStatus.Paused);
-      return;
+    switch (audioStatus) {
+      case MusicStatus.Playing:
+        audio.pause();
+        audio.currentTime = 0;
+        setAudioStatus(MusicStatus.Paused);
+        return;
+      default: // I think this is unreachable
+        break;
     }
-    console.log(audioStatus, 'second');
-    if (timerState === TimerState.Select) {
-      setTimerState(TimerState.Select);
-      setDays(0);
-      setHours(0);
-      setMinutes(0);
-      setSeconds(0);
-    } else if (timerState === TimerState.Running) {
-      setTimerState(TimerState.Stopped);
-      showOriginalTimePriorToClear();
+    switch (timerState) {
+      case TimerState.Select:
+        setDays(0);
+        setHours(0);
+        setMinutes(0);
+        setSeconds(0);
+        break;
+      case TimerState.Running:
+        setTimerState(TimerState.Select);
+        showOriginalTimePriorToClear();
+        break;
+      case TimerState.Paused:
+        setTimerState(TimerState.Select);
+        showOriginalTimePriorToClear();
+        break;
+
+      default: // I think this is unreachable
+        break;
     }
+    console.log('testing clear');
     if (intervalId !== null) {
       setIntervalId(null);
     }
@@ -143,7 +172,9 @@ const Timer = ({}: Props) => {
         return prevRemainingSeconds - 1;
       });
     }, 1000);
-
+    timerState !== TimerState.Running
+      ? clearInterval(intervalId)
+      : console.log('still running');
     return () => {
       clearInterval(intervalId);
     };
