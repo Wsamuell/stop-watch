@@ -45,6 +45,26 @@ const Timer = ({}: Props) => {
     minutes === 0 &&
     seconds === 0 &&
     audioStatus === MusicStatus.Paused;
+  const startPauseButtonText = (timerState: TimerState) => {
+    switch (timerState) {
+      case TimerState.Select:
+        return 'Start';
+      case TimerState.Running:
+        return 'Pause';
+      case TimerState.Paused:
+        return 'Resume';
+    }
+  };
+  const stopClearButtonText = (timerState: TimerState) => {
+    switch (timerState) {
+      case TimerState.Select:
+        return 'Clear';
+      case TimerState.Running:
+        return 'Cancel';
+      case TimerState.Paused:
+        return 'Cancel';
+    }
+  };
 
   const duration = convertToDuration({
     days: days as number,
@@ -152,12 +172,6 @@ const Timer = ({}: Props) => {
 
     const intervalId = window.setInterval(() => {
       setRemainingTime((prevRemainingSeconds) => {
-        if (prevRemainingSeconds <= 0) {
-          clearInterval(intervalId);
-          handleClearOrCancel(timerState);
-          return 0;
-        }
-
         const countDown = convertToDuration({
           days: 0,
           hours: 0,
@@ -169,12 +183,12 @@ const Timer = ({}: Props) => {
         setHours(countDown.getHours);
         setMinutes(countDown.getMinutes);
         setSeconds(countDown.getSeconds);
-        return prevRemainingSeconds - 1;
+        return prevRemainingSeconds <= 0
+          ? (clearInterval(intervalId), handleClearOrCancel(timerState), 0)
+          : prevRemainingSeconds - 1;
       });
     }, 1000);
-    timerState !== TimerState.Running
-      ? clearInterval(intervalId)
-      : console.log('still running');
+    timerState !== TimerState.Running ? clearInterval(intervalId) : null;
     return () => {
       clearInterval(intervalId);
     };
@@ -243,13 +257,13 @@ const Timer = ({}: Props) => {
       <FlexRow styles="w-1/2 justify-between">
         <Button
           onClick={() => handleClearOrCancel(timerState)}
-          children={timerState === TimerState.Select ? 'Clear' : 'Cancel'}
+          children={stopClearButtonText(timerState)}
           disabled={DisabledStateCancelButton}
         />
 
         <Button
           onClick={() => handleStartOrPause(timerState)}
-          children={timerState === TimerState.Select ? 'Start' : 'Pause'}
+          children={startPauseButtonText(timerState)}
           disabled={DisabledStateStartButton}
         />
       </FlexRow>
