@@ -1,7 +1,12 @@
 import { ChangeEvent } from 'react';
 import FlexColumn from './FlexColumn';
 import { ThemeMode } from '../Helpers/Enums';
-import { boxTextColorMode, textColorMode } from './ColorTheme';
+import {
+  bgColorMode,
+  borderColorMode,
+  boxTextColorMode,
+  textColorMode,
+} from './ColorTheme';
 
 type Props = {
   childText?: string;
@@ -31,16 +36,17 @@ const Input = ({
 
   return (
     <FlexColumn
-      styles={`items-center p-3 border rounded bg-${textColorMode(
+      styles={`items-center p-3 border ${borderColorMode(
         currentMode
-      )} m-3 opacity-75 border-${textColorMode(
+      )} rounded ${bgColorMode(currentMode)} m-3 opacity-75 ${borderColorMode(
         currentMode
       )} md:w-40 md:h-40 w-20 h-20 justify-between`}
     >
       <input
-        className={`md:w-20 md:h-20 w-10 h-10 md:text-5xl text-2xl text-center outline-none text-${boxTextColorMode(
+        className={`md:w-20 md:h-20 w-10 h-10 md:text-5xl text-2xl text-center outline-none ${boxTextColorMode(
           currentMode
-        )}`}
+        )} ${bgColorMode(currentMode)}
+        `}
         type="text"
         value={value === '' ? '' : value.toString()}
         placeholder={placeholder}
@@ -48,7 +54,9 @@ const Input = ({
         onFocus={(event) => event.target.select()}
         maxLength={2}
       />
-      {childText && <div>{childText}</div>}
+      {childText && (
+        <div className={`${boxTextColorMode(currentMode)}`}>{childText}</div>
+      )}
     </FlexColumn>
   );
 };

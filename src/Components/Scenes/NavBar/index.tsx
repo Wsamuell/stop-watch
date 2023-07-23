@@ -29,9 +29,7 @@ const NavBar = ({ currentMode, setCurrentMode }: Props) => {
 
   return (
     <FlexRow
-      styles={`justify-between items-center p-4 text-${textColorMode(
-        currentMode
-      )}`}
+      styles={`justify-between items-center p-4 ${textColorMode(currentMode)}`}
     >
       <FlexColumn styles="justify-center">
         <Button

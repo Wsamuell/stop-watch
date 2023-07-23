@@ -227,17 +227,17 @@ const Timer = ({ currentMode }: Props) => {
       <FlexRow styles="items-center justify-between w-screen p-3">
         <FlexColumn styles="">
           <FaLinkedin
-            className={`h-6 w-6 m-2  text-${textColorMode(
+            className={`h-6 w-6 m-2 ${textColorMode(
               currentMode
             )} opacity-70 font-light`}
           />
           <FaGithub
-            className={`h-6 w-6 m-2 text-${textColorMode(
+            className={`h-6 w-6 m-2 ${textColorMode(
               currentMode
             )} opacity-70 font-light`}
           />
           <UserIcon
-            className={`h-6 w-6 m-2 text-${textColorMode(
+            className={`h-6 w-6 m-2 ${textColorMode(
               currentMode
             )} opacity-70 font-light`}
           />
@@ -306,7 +306,11 @@ const Timer = ({ currentMode }: Props) => {
               </FlexRow>
               <FlexColumn>
                 <ProgressBar progress={timerProgress} />
-                <div className="opacity-70 font-light text-xs italic">
+                <div
+                  className={`opacity-70 font-light ${textColorMode(
+                    currentMode
+                  )} text-xs  italic`}
+                >
                   Start Time: {startTime.toLocaleTimeString()}
                 </div>
               </FlexColumn>
@@ -336,9 +340,7 @@ const Timer = ({ currentMode }: Props) => {
         </FlexColumn>
         <FlexColumn styles="justify-center items-center h-full">
           <div
-            className={`text-${textColorMode(
-              currentMode
-            )} opacity-70 font-light`}
+            className={`${textColorMode(currentMode)} opacity-70 font-light`}
           >
             {weekDays[startTime.getDay()]}
           </div>
@@ -353,7 +355,7 @@ const Timer = ({ currentMode }: Props) => {
           />
           <Button onClick={() => console.log('BMRK Button')}>
             <BookmarkIcon
-              className={`h-6 w-6 m-2 text-${textColorMode(
+              className={`h-6 w-6 m-2 ${textColorMode(
                 currentMode
               )} opacity-70 font-light`}
             />

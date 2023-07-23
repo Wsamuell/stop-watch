@@ -21,7 +21,7 @@ const Time = ({ currentMode }: Prop) => {
     return () => cancelAnimationFrame(animationId);
   }, []);
   return (
-    <FlexColumn styles={`items-center p-3 text-${textColorMode(currentMode)}`}>
+    <FlexColumn styles={`items-center p-3 ${textColorMode(currentMode)}`}>
       <div className="md:text-7xl text-3xl opacity-50 italic">
         {currentTime.toLocaleTimeString()}
       </div>

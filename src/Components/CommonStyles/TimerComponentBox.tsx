@@ -1,5 +1,5 @@
 import { ThemeMode } from '../Helpers/Enums';
-import { boxTextColorMode, textColorMode } from './ColorTheme';
+import { bgColorMode, borderColorMode, boxTextColorMode } from './ColorTheme';
 import FlexColumn from './FlexColumn';
 
 type Props = {
@@ -11,9 +11,11 @@ type Props = {
 const TimerComponentBox = ({ children, description, currentMode }: Props) => {
   return (
     <FlexColumn
-      styles={`md:h-40 md:w-40 h-20 w-20 items-center p-3 border rounded bg-${textColorMode(
+      styles={`md:h-40 md:w-40 h-20 w-20 items-center p-3 border ${borderColorMode(
         currentMode
-      )} m-3 opacity-75 flex justify-center drop-shadow-md`}
+      )} rounded ${bgColorMode(
+        currentMode
+      )} m-3 opacity-75 flex justify-center shadow-md`}
     >
       <div className={`md:text-9xl text-5xl ${boxTextColorMode(currentMode)}`}>
         {children}

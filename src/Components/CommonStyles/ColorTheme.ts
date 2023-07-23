@@ -1,35 +1,38 @@
 import { ThemeMode, TimerState } from '../Helpers/Enums';
 
+// these would be better as enums but this project is too small
 export const bgColorMode = (currentMode: ThemeMode) => {
   switch (currentMode) {
     case ThemeMode.Light:
       return 'bg-slate-800';
     case ThemeMode.Dark:
       return 'bg-slate-50';
-    default:
-      return 'bg-lightModeBlack';
+  }
+};
+export const borderColorMode = (currentMode: ThemeMode) => {
+  switch (currentMode) {
+    case ThemeMode.Light:
+      return 'border-slate-800';
+    case ThemeMode.Dark:
+      return 'border-slate-50';
   }
 };
 
 export const textColorMode = (currentMode: ThemeMode) => {
   switch (currentMode) {
     case ThemeMode.Light:
-      return 'black';
+      return 'text-slate-800';
     case ThemeMode.Dark:
-      return 'white';
-    default:
-      return 'lightModeBlack';
+      return 'text-slate-50';
   }
 };
 
 export const boxTextColorMode = (currentMode: ThemeMode) => {
   switch (currentMode) {
     case ThemeMode.Light:
-      return 'white';
+      return 'text-slate-50';
     case ThemeMode.Dark:
-      return 'black';
-    default:
-      return 'lightModeBlack';
+      return 'text-slate-800';
   }
 };
 
