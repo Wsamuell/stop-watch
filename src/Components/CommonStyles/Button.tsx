@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { ButtonColor, ButtonSize } from '../Helpers/Enums';
 
 interface ButtonProps {
@@ -19,13 +20,19 @@ const Button = ({
   disabled = false,
 }: ButtonProps) => {
   return (
-    <button
-      disabled={disabled}
-      className={`${style} ${size} ${color}`}
-      onClick={onClick}
+    <motion.div
+      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.1, cursor: 'pointer' }}
+      transition={{ duration: 0.5 }}
     >
-      {children}
-    </button>
+      <button
+        disabled={disabled}
+        className={`${style} ${size} ${color}`}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    </motion.div>
   );
 };
 

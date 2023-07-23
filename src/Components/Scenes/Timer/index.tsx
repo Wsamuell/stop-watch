@@ -22,7 +22,11 @@ import {
 import TimerComponentBox from '../../CommonStyles/TimerComponentBox';
 import ProgressBar from '../../CommonStyles/ProgressBar';
 import Serenity from '../../../assets/Music/Serenity.mp3';
-import { textColorMode } from '../../CommonStyles/ColorTheme';
+import {
+  cancelButtonColorMode,
+  startButtonColorMode,
+  textColorMode,
+} from '../../CommonStyles/ColorTheme';
 import { BookmarkIcon, UserIcon } from '@heroicons/react/24/outline';
 import HorizontalLine from '../../CommonStyles/HorizontalLine';
 
@@ -55,6 +59,12 @@ const Timer = ({ currentMode }: Props) => {
     minutes === 0 &&
     seconds === 0 &&
     audioStatus === MusicStatus.Paused;
+  const checkIfCancelDisabled = DisabledStateCancelButton
+    ? 'opacity-50 cursor-not-allowed'
+    : 'opacity-100';
+  const checkIfStartDisabled = DisabledStateStartButton
+    ? 'opacity-50 cursor-not-allowed'
+    : 'opacity-100';
   const startPauseButtonText = (timerState: TimerState) => {
     switch (timerState) {
       case TimerState.Select:
@@ -303,13 +313,20 @@ const Timer = ({ currentMode }: Props) => {
           )}
           <FlexRow styles="justify-between p-3">
             <Button
-              style="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full h-20 w-20 drop-shadow-md"
+              style={`${cancelButtonColorMode(timerState)} ${textColorMode(
+                currentMode
+              )} font-bold py-2 px-4 rounded-full h-20 w-20
+              ${checkIfCancelDisabled}
+              `}
               onClick={() => handleClearOrCancel(timerState)}
               children={stopClearButtonText(timerState)}
               disabled={DisabledStateCancelButton}
             />
-
             <Button
+              style={`${startButtonColorMode(timerState)}
+              ${textColorMode(currentMode)} 
+              ${checkIfStartDisabled}
+              font-bold py-2 px-4 rounded-full h-20 w-20 drop-shadow-md`}
               onClick={() => handleStartOrPause(timerState)}
               children={startPauseButtonText(timerState)}
               disabled={DisabledStateStartButton}

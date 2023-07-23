@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import FlexColumn from './FlexColumn';
 import { ThemeMode } from '../Helpers/Enums';
-import { textColorMode } from './ColorTheme';
+import { boxTextColorMode, textColorMode } from './ColorTheme';
 
 type Props = {
   childText?: string;
@@ -28,7 +28,6 @@ const Input = ({
       onChange(parsedValue);
     }
   };
-  console.log(currentMode);
 
   return (
     <FlexColumn
@@ -39,7 +38,7 @@ const Input = ({
       )} md:w-40 md:h-40 w-20 h-20 justify-between`}
     >
       <input
-        className={`md:w-20 md:h-20 w-10 h-10 md:text-5xl text-2xl text-center outline-none text-${textColorMode(
+        className={`md:w-20 md:h-20 w-10 h-10 md:text-5xl text-2xl text-center outline-none text-${boxTextColorMode(
           currentMode
         )}`}
         type="text"
