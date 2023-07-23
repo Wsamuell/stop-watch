@@ -1,4 +1,4 @@
-import { TimerProps } from './Interfaces';
+import { TimerProps } from './Types';
 
 export const convertToDuration = ({
   days,

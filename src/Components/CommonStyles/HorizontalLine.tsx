@@ -1,5 +1,5 @@
 import { HorizontalLineSize, ThemeMode } from '../Helpers/Enums';
-import { textColorMode } from './ColorTheme';
+import { bgColorMode } from './ColorTheme';
 import FlexColumn from './FlexColumn';
 
 type Props = {
@@ -14,9 +14,7 @@ const HorizontalLine = ({
   return (
     <FlexColumn styles="justify-around">
       <div
-        className={`w-1 ${height} bg-${textColorMode(
-          currentMode
-        )} justify-around`}
+        className={`w-1 ${height} ${bgColorMode(currentMode)} justify-around`}
       ></div>
     </FlexColumn>
   );

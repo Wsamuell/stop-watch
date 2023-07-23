@@ -9,7 +9,7 @@ import {
   ThemeMode,
   TimerState,
 } from '../../Helpers/Enums';
-import { TimerProps } from '../../Helpers/Interfaces';
+import { TimerProps } from '../../Helpers/Types';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 import {
@@ -29,6 +29,7 @@ import {
 } from '../../CommonStyles/ColorTheme';
 import { BookmarkIcon, UserIcon } from '@heroicons/react/24/outline';
 import HorizontalLine from '../../CommonStyles/HorizontalLine';
+import Spacer from '../../CommonStyles/Spacer';
 
 type Props = { currentMode: ThemeMode };
 
@@ -333,7 +334,7 @@ const Timer = ({ currentMode }: Props) => {
             />
           </FlexRow>
         </FlexColumn>
-        <FlexColumn styles="justify-center items-center">
+        <FlexColumn styles="justify-center items-center h-full">
           <div
             className={`text-${textColorMode(
               currentMode
@@ -341,8 +342,11 @@ const Timer = ({ currentMode }: Props) => {
           >
             {weekDays[startTime.getDay()]}
           </div>
-          <HorizontalLine currentMode={currentMode} />
-
+          <HorizontalLine
+            currentMode={currentMode}
+            height={HorizontalLineSize.Small}
+          />
+          <Spacer size={10} />
           <HorizontalLine
             currentMode={currentMode}
             height={HorizontalLineSize.Large}

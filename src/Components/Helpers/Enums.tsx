@@ -22,13 +22,18 @@ export enum MusicStatus {
 }
 
 export enum HorizontalLineSize {
-  Small = 'h-1/4',
-  Medium = 'h-1/2',
-  Large = 'h-full',
+  Small = 'h-2',
+  Medium = 'h-6',
+  Large = 'h-12',
 }
 
 export enum TimerState {
   Select = 'Select',
   Running = 'Running',
   Paused = 'Paused',
+}
+
+export enum Direction {
+  Vertical = 'Vertical',
+  Horizontal = 'Horizontal',
 }
