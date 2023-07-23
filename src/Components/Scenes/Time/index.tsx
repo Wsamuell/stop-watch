@@ -22,7 +22,7 @@ const Time = ({ currentMode }: Prop) => {
   }, []);
   return (
     <FlexColumn styles={`items-center p-3 text-${textColorMode(currentMode)}`}>
-      <div className="md:text-7xl text-3xl opacity-50 font-light italic">
+      <div className="md:text-7xl text-3xl opacity-50 italic">
         {currentTime.toLocaleTimeString()}
       </div>
     </FlexColumn>

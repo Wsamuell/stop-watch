@@ -14,7 +14,7 @@ const App = () => {
     <div className={`h-screen bg-cover bg-center ${bgMode}`}>
       <NavBar currentMode={currentMode} setCurrentMode={setCurrentMode} />
       <Time currentMode={currentMode} />
-      <Timer />
+      <Timer currentMode={currentMode} />
     </div>
   );
 };

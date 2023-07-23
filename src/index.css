@@ -10,8 +10,7 @@ body,
 .app {
   height: 100%;
   width: 100%;
-  font-family: 'Lilita One', sans-serif; /* terrible color here */
-  @apply text-primary;
+  font-family: 'Lilita One', sans-serif;
 }
 
 @layer base {

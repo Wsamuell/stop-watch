@@ -3,8 +3,15 @@ import Input from '../../CommonStyles/Input';
 import FlexRow from '../../CommonStyles/FlexRow';
 import FlexColumn from '../../CommonStyles/FlexColumn';
 import Button from '../../CommonStyles/Button';
-import { MusicStatus, TimerState } from '../../Helpers/Enums';
+import {
+  HorizontalLineSize,
+  MusicStatus,
+  ThemeMode,
+  TimerState,
+} from '../../Helpers/Enums';
 import { TimerProps } from '../../Helpers/Interfaces';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+
 import {
   convertToDuration,
   dayString,
@@ -13,13 +20,15 @@ import {
   secondString,
 } from '../../Helpers/TimeHelpers';
 import TimerComponentBox from '../../CommonStyles/TimerComponentBox';
-import TimerDot from '../../CommonStyles/TimerDot';
 import ProgressBar from '../../CommonStyles/ProgressBar';
 import Serenity from '../../../assets/Music/Serenity.mp3';
+import { textColorMode } from '../../CommonStyles/ColorTheme';
+import { BookmarkIcon, UserIcon } from '@heroicons/react/24/outline';
+import HorizontalLine from '../../CommonStyles/HorizontalLine';
 
-type Props = {};
+type Props = { currentMode: ThemeMode };
 
-const Timer = ({}: Props) => {
+const Timer = ({ currentMode }: Props) => {
   const [days, setDays] = useState<TimerProps['days']>(0);
   const [hours, setHours] = useState<TimerProps['hours']>(0);
   const [minutes, setMinutes] = useState<TimerProps['minutes']>(0);
@@ -36,6 +45,7 @@ const Timer = ({}: Props) => {
 
   const [intervalId, setIntervalId] = useState<number | null>(null);
   const audio = useMemo(() => new Audio(Serenity), []);
+  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const DisabledStateStartButton =
     days === 0 && hours === 0 && minutes === 0 && seconds === 0;
@@ -191,75 +201,143 @@ const Timer = ({}: Props) => {
     };
   }, [timerState, remainingTime]);
 
+  useEffect(() => {
+    switch (timerState) {
+      case TimerState.Running:
+        document.title = `${days} : ${hours} : ${minutes} : ${seconds}`;
+        break;
+      default:
+        document.title = `Focus`;
+    }
+  }, [timerState, days, hours, minutes, seconds]);
+
   return (
     <FlexColumn styles="p-3 items-center">
-      {timerState === TimerState.Select && (
-        <FlexRow styles="">
-          <Input
-            childText={dayString(days)}
-            value={days}
-            onChange={(newValue) => setDays(newValue)}
+      <FlexRow styles="items-center justify-between w-screen p-3">
+        <FlexColumn styles="">
+          <FaLinkedin
+            className={`h-6 w-6 m-2  text-${textColorMode(
+              currentMode
+            )} opacity-70 font-light`}
           />
-          <Input
-            childText={hourString(hours)}
-            value={hours}
-            onChange={(newValue) => setHours(newValue)}
+          <FaGithub
+            className={`h-6 w-6 m-2 text-${textColorMode(
+              currentMode
+            )} opacity-70 font-light`}
           />
-          <Input
-            childText={minuteString(minutes)}
-            value={minutes}
-            onChange={(newValue) => setMinutes(newValue)}
-            placeholder="30"
+          <UserIcon
+            className={`h-6 w-6 m-2 text-${textColorMode(
+              currentMode
+            )} opacity-70 font-light`}
           />
-          <Input
-            childText={secondString(seconds)}
-            value={seconds}
-            onChange={(newValue) => setSeconds(newValue)}
-          />
-        </FlexRow>
-      )}
-      {timerState !== TimerState.Select && (
-        <FlexColumn>
-          <FlexRow styles="">
-            {duration.getDays > 0 && (
-              <Fragment>
-                <TimerComponentBox description={dayString(days)}>
-                  {days}
-                </TimerComponentBox>
-                <TimerDot />
-              </Fragment>
-            )}
-            <TimerComponentBox description={hourString(hours)}>
-              {hours}
-            </TimerComponentBox>
-            <TimerDot />
-            <TimerComponentBox description={minuteString(minutes)}>
-              {minutes}
-            </TimerComponentBox>
-            <TimerDot />
-            <TimerComponentBox description={secondString(seconds)}>
-              {seconds}
-            </TimerComponentBox>
-          </FlexRow>
-          <ProgressBar progress={timerProgress} />
-
-          <div className="opacity-70 font-light text-xs italic">
-            Start Time: {startTime.toLocaleTimeString()}
-          </div>
         </FlexColumn>
-      )}
-      <FlexRow styles="w-1/2 justify-between">
-        <Button
-          onClick={() => handleClearOrCancel(timerState)}
-          children={stopClearButtonText(timerState)}
-          disabled={DisabledStateCancelButton}
-        />
+        <FlexColumn>
+          {timerState === TimerState.Select && (
+            <FlexRow styles="flex-wrap justify-center ">
+              <Input
+                currentMode={currentMode}
+                childText={dayString(days)}
+                value={days}
+                onChange={(newValue) => setDays(newValue)}
+              />
+              <Input
+                currentMode={currentMode}
+                childText={hourString(hours)}
+                value={hours}
+                onChange={(newValue) => setHours(newValue)}
+              />
+              <Input
+                currentMode={currentMode}
+                childText={minuteString(minutes)}
+                value={minutes}
+                onChange={(newValue) => setMinutes(newValue)}
+                placeholder="30"
+              />
+              <Input
+                currentMode={currentMode}
+                childText={secondString(seconds)}
+                value={seconds}
+                onChange={(newValue) => setSeconds(newValue)}
+              />
+            </FlexRow>
+          )}
+          {timerState !== TimerState.Select && (
+            <FlexColumn>
+              <FlexRow styles="flex-wrap justify-center">
+                {duration.getDays > 0 && (
+                  <Fragment>
+                    <TimerComponentBox
+                      currentMode={currentMode}
+                      description={dayString(days)}
+                    >
+                      {days}
+                    </TimerComponentBox>
+                  </Fragment>
+                )}
+                <TimerComponentBox
+                  currentMode={currentMode}
+                  description={hourString(hours)}
+                >
+                  {hours}
+                </TimerComponentBox>
+                <TimerComponentBox
+                  currentMode={currentMode}
+                  description={minuteString(minutes)}
+                >
+                  {minutes}
+                </TimerComponentBox>
+                <TimerComponentBox
+                  currentMode={currentMode}
+                  description={secondString(seconds)}
+                >
+                  {seconds}
+                </TimerComponentBox>
+              </FlexRow>
+              <FlexColumn>
+                <ProgressBar progress={timerProgress} />
+                <div className="opacity-70 font-light text-xs italic">
+                  Start Time: {startTime.toLocaleTimeString()}
+                </div>
+              </FlexColumn>
+            </FlexColumn>
+          )}
+          <FlexRow styles="justify-between p-3">
+            <Button
+              style="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full h-20 w-20 drop-shadow-md"
+              onClick={() => handleClearOrCancel(timerState)}
+              children={stopClearButtonText(timerState)}
+              disabled={DisabledStateCancelButton}
+            />
 
-        <Button
-          onClick={() => handleStartOrPause(timerState)}
-          children={startPauseButtonText(timerState)}
-          disabled={DisabledStateStartButton}
-        />
+            <Button
+              onClick={() => handleStartOrPause(timerState)}
+              children={startPauseButtonText(timerState)}
+              disabled={DisabledStateStartButton}
+            />
+          </FlexRow>
+        </FlexColumn>
+        <FlexColumn styles="justify-center items-center">
+          <div
+            className={`text-${textColorMode(
+              currentMode
+            )} opacity-70 font-light`}
+          >
+            {weekDays[startTime.getDay()]}
+          </div>
+          <HorizontalLine currentMode={currentMode} />
+
+          <HorizontalLine
+            currentMode={currentMode}
+            height={HorizontalLineSize.Large}
+          />
+          <Button onClick={() => console.log('BMRK Button')}>
+            <BookmarkIcon
+              className={`h-6 w-6 m-2 text-${textColorMode(
+                currentMode
+              )} opacity-70 font-light`}
+            />
+          </Button>
+        </FlexColumn>
       </FlexRow>
     </FlexColumn>
   );
