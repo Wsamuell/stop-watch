@@ -5,7 +5,6 @@ import Logo from '../../../assets/Images/logo.png';
 import { ThemeMode } from '../../Helpers/Enums';
 import FlexColumn from '../../CommonStyles/FlexColumn';
 import {
-  borderColorMode,
   lightModeColorSwitch,
   textColorMode,
 } from '../../CommonStyles/ColorTheme';

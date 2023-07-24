@@ -22,7 +22,7 @@ export const lightModeColorSwitch = (currentMode: ThemeMode) => {
     case ThemeMode.Light:
       return '#a5a5a5';
     case ThemeMode.Dark:
-      return 'border-slate-50';
+      return '#ffffff';
   }
 };
 

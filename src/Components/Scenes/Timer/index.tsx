@@ -348,12 +348,12 @@ const Timer = ({ currentMode }: Props) => {
           </div>
           <HorizontalLine
             currentMode={currentMode}
-            height={HorizontalLineSize.Small}
+            height={HorizontalLineSize.Large}
           />
           <Spacer size={10} />
           <HorizontalLine
             currentMode={currentMode}
-            height={HorizontalLineSize.Large}
+            height={HorizontalLineSize.Small}
           />
           <Button onClick={() => console.log('BMRK Button')}>
             <BookmarkIcon
