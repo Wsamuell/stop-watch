@@ -1,12 +1,7 @@
 import { ChangeEvent } from 'react';
 import FlexColumn from './FlexColumn';
 import { ThemeMode } from '../Helpers/Enums';
-import {
-  bgColorMode,
-  borderColorMode,
-  boxTextColorMode,
-  textColorMode,
-} from './ColorTheme';
+import { bgColorMode, borderColorMode, boxTextColorMode } from './ColorTheme';
 
 type Props = {
   childText?: string;

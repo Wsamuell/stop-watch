@@ -307,7 +307,7 @@ const Timer = ({ currentMode }: Props) => {
               <FlexColumn>
                 <ProgressBar progress={timerProgress} />
                 <div
-                  className={`opacity-70 font-light ${textColorMode(
+                  className={`opacity-80 font-mono font-light ${textColorMode(
                     currentMode
                   )} text-xs  italic`}
                 >

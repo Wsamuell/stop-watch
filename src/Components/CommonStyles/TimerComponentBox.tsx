@@ -15,7 +15,7 @@ const TimerComponentBox = ({ children, description, currentMode }: Props) => {
         currentMode
       )} rounded ${bgColorMode(
         currentMode
-      )} m-3 opacity-75 flex justify-center shadow-md`}
+      )} m-3 opacity-90 flex justify-center shadow-md`}
     >
       <div className={`md:text-9xl text-5xl ${boxTextColorMode(currentMode)}`}>
         {children}
