@@ -9,8 +9,8 @@ export default {
         // darkModeBlack: '#333333',
       },
       backgroundImage: (theme) => ({
-        'light-mode': "url('./src/assets/Images/light-bg.jpg')",
-        'dark-mode': "url('./src/assets/Images/dark-bg.jpg')",
+        'light-mode': "url('./src/assets/Images/light-beach.jpg')",
+        'dark-mode': "url('./src/assets/Images/dark-road.jpg')",
       }),
     },
   },

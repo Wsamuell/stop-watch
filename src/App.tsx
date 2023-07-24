@@ -3,15 +3,12 @@ import Timer from './Components/Scenes/Timer';
 import NavBar from './Components/Scenes/NavBar';
 import { ThemeMode } from './Components/Helpers/Enums';
 import Time from './Components/Scenes/Time';
-import { AnimatePresence, motion } from 'framer-motion';
-import DarkBg from './assets/Images/dark-bg.jpg';
-import LightBg from '../src/assets/Images/light-bg.jpg';
+// import { AnimatePresence, motion } from 'framer-motion';
 
 const App = () => {
   const [currentMode, setCurrentMode] = useState<ThemeMode>(ThemeMode.Light);
   const bgMode =
     currentMode === ThemeMode.Light ? 'bg-light-mode' : 'bg-dark-mode';
-  const tester = currentMode === ThemeMode.Light ? LightBg : DarkBg;
 
   // BKMRK: smooth transition between bg images fix later
   // <AnimatePresence>

@@ -17,6 +17,14 @@ export const borderColorMode = (currentMode: ThemeMode) => {
       return 'border-slate-50';
   }
 };
+export const lightModeColorSwitch = (currentMode: ThemeMode) => {
+  switch (currentMode) {
+    case ThemeMode.Light:
+      return '#a5a5a5';
+    case ThemeMode.Dark:
+      return 'border-slate-50';
+  }
+};
 
 export const textColorMode = (currentMode: ThemeMode) => {
   switch (currentMode) {

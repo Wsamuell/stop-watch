@@ -320,7 +320,7 @@ const Timer = ({ currentMode }: Props) => {
             <Button
               style={`${cancelButtonColorMode(timerState)} ${textColorMode(
                 currentMode
-              )} font-bold py-2 px-4 rounded-full h-20 w-20
+              )} font-bold py-2 px-4 rounded-full h-20 w-20 shadow-md
               ${checkIfCancelDisabled}
               `}
               onClick={() => handleClearOrCancel(timerState)}
@@ -331,7 +331,7 @@ const Timer = ({ currentMode }: Props) => {
               style={`${startButtonColorMode(timerState)}
               ${textColorMode(currentMode)} 
               ${checkIfStartDisabled}
-              font-bold py-2 px-4 rounded-full h-20 w-20 drop-shadow-md`}
+              font-bold py-2 px-4 rounded-full h-20 w-20 shadow-md`}
               onClick={() => handleStartOrPause(timerState)}
               children={startPauseButtonText(timerState)}
               disabled={DisabledStateStartButton}
@@ -340,7 +340,9 @@ const Timer = ({ currentMode }: Props) => {
         </FlexColumn>
         <FlexColumn styles="justify-center items-center h-full">
           <div
-            className={`${textColorMode(currentMode)} opacity-70 font-light`}
+            className={`${textColorMode(
+              currentMode
+            )} opacity-70 font-light m-2`}
           >
             {weekDays[startTime.getDay()]}
           </div>

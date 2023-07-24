@@ -14,7 +14,9 @@ const HorizontalLine = ({
   return (
     <FlexColumn styles="justify-around">
       <div
-        className={`w-1 ${height} ${bgColorMode(currentMode)} justify-around`}
+        className={`w-1 ${height} ${bgColorMode(
+          currentMode
+        )} justify-around opacity-50`}
       ></div>
     </FlexColumn>
   );

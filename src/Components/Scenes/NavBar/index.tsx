@@ -1,11 +1,14 @@
 import Button from '../../CommonStyles/Button';
 import FlexRow from '../../CommonStyles/FlexRow';
-import { SunIcon } from '@heroicons/react/20/solid';
-import { MoonIcon } from '@heroicons/react/24/outline';
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 import Logo from '../../../assets/Images/logo.png';
 import { ThemeMode } from '../../Helpers/Enums';
 import FlexColumn from '../../CommonStyles/FlexColumn';
-import { textColorMode } from '../../CommonStyles/ColorTheme';
+import {
+  borderColorMode,
+  lightModeColorSwitch,
+  textColorMode,
+} from '../../CommonStyles/ColorTheme';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
@@ -28,10 +31,8 @@ const NavBar = ({ currentMode, setCurrentMode }: Props) => {
   };
 
   return (
-    <FlexRow
-      styles={`justify-between items-center p-4 ${textColorMode(currentMode)}`}
-    >
-      <FlexColumn styles="justify-center">
+    <FlexRow styles={`justify-between items-center p-4`}>
+      <FlexColumn styles={`justify-center ${textColorMode(currentMode)}`}>
         <Button
           onClick={() => console.log('Rina Mode')}
           style=" flex justify-center"
@@ -43,14 +44,18 @@ const NavBar = ({ currentMode, setCurrentMode }: Props) => {
       <motion.div
         style={{
           borderRadius: '50%',
-          border: `1px solid ${textColorMode(currentMode)}`,
+          border: `1px solid ${lightModeColorSwitch(currentMode)}`,
+          backgroundColor: `${lightModeColorSwitch(currentMode)}`,
         }}
         whileTap={{ rotate: 360 }}
         whileHover={{ scale: 1.1 }}
         animate={{ rotate: isRotating ? 360 : 0 }}
         transition={{ duration: 1 }}
       >
-        <Button onClick={toggleTheme} style={`py-4 px-4`}>
+        <Button
+          onClick={toggleTheme}
+          style={`py-4 px-4 ${lightModeColorSwitch(currentMode)}`}
+        >
           {currentMode === ThemeMode.Light ? (
             <MoonIcon className="h-6 w-6" />
           ) : (
