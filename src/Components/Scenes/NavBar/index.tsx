@@ -13,10 +13,17 @@ import { useState } from 'react';
 
 type Props = {
   currentMode: ThemeMode;
+  rinaMode: boolean;
+  setRinaMode: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentMode: React.Dispatch<React.SetStateAction<ThemeMode>>;
 };
 
-const NavBar = ({ currentMode, setCurrentMode }: Props) => {
+const NavBar = ({
+  currentMode,
+  setCurrentMode,
+  rinaMode,
+  setRinaMode,
+}: Props) => {
   const [isRotating, setIsRotating] = useState(false);
   const handleRotateClick = () => {
     setIsRotating(!isRotating);
@@ -33,7 +40,7 @@ const NavBar = ({ currentMode, setCurrentMode }: Props) => {
     <FlexRow styles={`justify-between items-center p-4`}>
       <FlexColumn styles={`justify-center ${textColorMode(currentMode)}`}>
         <Button
-          onClick={() => console.log('Rina Mode')}
+          onClick={() => setRinaMode(!rinaMode)}
           style=" flex justify-center"
         >
           <img alt="logo" src={Logo} className="h-20 w-20" />
