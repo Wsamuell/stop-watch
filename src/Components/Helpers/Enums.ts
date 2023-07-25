@@ -37,3 +37,9 @@ export enum Direction {
   Vertical = 'Vertical',
   Horizontal = 'Horizontal',
 }
+
+export enum LinkType {
+  LinkedIn = 'https://www.linkedin.com/in/samuel-odubamowo-567229207/',
+  GitHub = 'https://github.com/Wsamuell',
+  Portfolio = 'https://wsamuell.github.io/personal-portfolio/',
+}

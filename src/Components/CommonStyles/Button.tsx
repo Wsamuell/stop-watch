@@ -2,15 +2,15 @@ import { motion } from 'framer-motion';
 import { ButtonColor, ButtonSize } from '../Helpers/Enums';
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   size?: ButtonSize;
   style?: string;
   children?: React.ReactNode | string;
   color?: ButtonColor;
   disabled?: boolean;
+  link?: string;
 }
 
-// BKMRK: Button styling and Enum is broken
 const Button = ({
   onClick,
   size,
@@ -18,7 +18,15 @@ const Button = ({
   children,
   color,
   disabled = false,
+  link,
 }: ButtonProps) => {
+  const handleLink = () => {
+    if (link) {
+      window.open(link, '_blank');
+    } else if (onClick) {
+      onClick();
+    }
+  };
   return (
     <motion.div
       whileTap={{ scale: 0.9 }}
@@ -28,7 +36,7 @@ const Button = ({
       <button
         disabled={disabled}
         className={`${style} ${size} ${color}`}
-        onClick={onClick}
+        onClick={handleLink}
       >
         {children}
       </button>

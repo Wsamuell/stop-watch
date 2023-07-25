@@ -5,6 +5,7 @@ import FlexColumn from '../../CommonStyles/FlexColumn';
 import Button from '../../CommonStyles/Button';
 import {
   HorizontalLineSize,
+  LinkType,
   MusicStatus,
   ThemeMode,
   TimerState,
@@ -226,21 +227,27 @@ const Timer = ({ currentMode }: Props) => {
     <FlexColumn styles="p-3 items-center">
       <FlexRow styles="items-center justify-between w-screen p-3">
         <FlexColumn styles="">
-          <FaLinkedin
-            className={`h-6 w-6 m-2 ${textColorMode(
-              currentMode
-            )} opacity-70 font-light`}
-          />
-          <FaGithub
-            className={`h-6 w-6 m-2 ${textColorMode(
-              currentMode
-            )} opacity-70 font-light`}
-          />
-          <UserIcon
-            className={`h-6 w-6 m-2 ${textColorMode(
-              currentMode
-            )} opacity-70 font-light`}
-          />
+          <Button link={LinkType.LinkedIn}>
+            <FaLinkedin
+              className={`h-6 w-6 m-2 ${textColorMode(
+                currentMode
+              )} opacity-70 font-light`}
+            />
+          </Button>
+          <Button link={LinkType.GitHub}>
+            <FaGithub
+              className={`h-6 w-6 m-2 ${textColorMode(
+                currentMode
+              )} opacity-70 font-light`}
+            />
+          </Button>
+          <Button link={LinkType.Portfolio}>
+            <UserIcon
+              className={`h-6 w-6 m-2 ${textColorMode(
+                currentMode
+              )} opacity-70 font-light`}
+            />
+          </Button>
         </FlexColumn>
         <FlexColumn>
           {timerState === TimerState.Select && (

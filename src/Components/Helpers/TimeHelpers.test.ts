@@ -1,5 +1,4 @@
 import { convertToDuration } from './TimeHelpers';
-// BKMRKL make sure jest test are requirement to build
 
 describe('convertToDuration', () => {
   test('should convert time to duration correctly', () => {
