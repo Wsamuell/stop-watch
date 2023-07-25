@@ -4,6 +4,7 @@ import NavBar from './Components/Scenes/NavBar';
 import { ThemeMode } from './Components/Helpers/Enums';
 import Time from './Components/Scenes/Time';
 import { motion } from 'framer-motion';
+import Footer from './Components/Scenes/Footer';
 
 const App = () => {
   const [currentMode, setCurrentMode] = useState<ThemeMode>(ThemeMode.Light);
@@ -22,7 +23,7 @@ const App = () => {
   return (
     <motion.div
       transition={{ duration: 1, ease: 'easeInOut', delay: 1 }}
-      className={`h-screen bg-cover bg-center ${
+      className={`flex flex-col justify-between h-screen bg-cover bg-center ${
         rinaMode ? rinaModeBg : backgroundImg(currentMode)
       }`}
     >
@@ -34,6 +35,7 @@ const App = () => {
       />
       <Time currentMode={currentMode} />
       <Timer currentMode={currentMode} />
+      <Footer currentMode={currentMode} />
     </motion.div>
   );
 };
