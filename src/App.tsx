@@ -13,9 +13,9 @@ const App = () => {
   const backgroundImg = (currentMode: ThemeMode) => {
     switch (currentMode) {
       case ThemeMode.Light:
-        return `bg-[url('../src/assets/Images/light-beach.jpg')]`;
+        return `bg-[url('../src/assets/Images/light-water.jpg')]`;
       case ThemeMode.Dark:
-        return `bg-[url('../src/assets/Images/dark-road.jpg')]`;
+        return `bg-[url('../src/assets/Images/dark-forest.jpg')]`;
     }
   };
   const rinaModeBg = `bg-[url('../src/assets/Images/rinaBg.jpg')]`;

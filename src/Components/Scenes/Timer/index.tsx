@@ -110,9 +110,47 @@ const Timer = ({ currentMode }: Props) => {
     setSeconds(resetTimer.getSeconds);
   };
 
+  const timerWorker = useMemo(() => {
+    const worker = new Worker('timerWorker.js');
+    worker.onmessage = (message) => {
+      let data = message.data;
+
+      if (data.command === 'tick') {
+        setRemainingTime((prevRemainingSeconds) => {
+          const countDown = convertToDuration({
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: prevRemainingSeconds - 1,
+          });
+
+          setDays(countDown.getDays);
+          setHours(countDown.getHours);
+          setMinutes(countDown.getMinutes);
+          setSeconds(countDown.getSeconds);
+          // the tick is not recognized at 1 here, it will actually count to zero and then reset
+          return prevRemainingSeconds <= 1
+            ? (setTimerState(TimerState.Select),
+              timerWorker.postMessage({
+                command: TimerState.Select,
+              }),
+              handleClearOrCancel(timerState),
+              0)
+            : prevRemainingSeconds - 1;
+        });
+      }
+    };
+    return worker;
+  }, []);
+
   const handleStartOrPause = (timerState: TimerState) => {
+    timerWorker.postMessage('Posted Message');
+
     switch (timerState) {
       case TimerState.Select:
+        timerWorker.postMessage({
+          command: TimerState.Running,
+        });
         setTimerState(TimerState.Running);
         setStartTime(new Date());
         setRemainingTime(duration.getTotalInSeconds);
@@ -120,10 +158,16 @@ const Timer = ({ currentMode }: Props) => {
 
         break;
       case TimerState.Running:
+        timerWorker.postMessage({
+          command: TimerState.Paused,
+        });
         setTimerState(TimerState.Paused);
 
         break;
       case TimerState.Paused:
+        timerWorker.postMessage({
+          command: TimerState.Running,
+        });
         setTimerState(TimerState.Running);
         break;
     }
@@ -156,10 +200,12 @@ const Timer = ({ currentMode }: Props) => {
         setSeconds(0);
         break;
       case TimerState.Running:
+        timerWorker.postMessage({ command: TimerState.Select });
         setTimerState(TimerState.Select);
         showOriginalTimePriorToClear();
         break;
       case TimerState.Paused:
+        timerWorker.postMessage({ command: TimerState.Select });
         setTimerState(TimerState.Select);
         showOriginalTimePriorToClear();
         break;
@@ -169,10 +215,11 @@ const Timer = ({ currentMode }: Props) => {
     }
   };
 
+  // keep watch to play music when timer is completed and reset timer
   useEffect(() => {
     if (timerState !== TimerState.Running && remainingTime === 0) {
-      showOriginalTimePriorToClear();
       setTimerCompleted(true);
+      showOriginalTimePriorToClear();
       switch (timerCompleted) {
         case true:
           audio.play();
@@ -184,35 +231,9 @@ const Timer = ({ currentMode }: Props) => {
           setAudioStatus(MusicStatus.Paused);
       }
     }
-    setDays(duration.getDays);
-    setHours(duration.getHours);
-    setMinutes(duration.getMinutes);
-    setSeconds(duration.getSeconds);
-
-    const intervalId = window.setInterval(() => {
-      setRemainingTime((prevRemainingSeconds) => {
-        const countDown = convertToDuration({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: prevRemainingSeconds - 1,
-        });
-
-        setDays(countDown.getDays);
-        setHours(countDown.getHours);
-        setMinutes(countDown.getMinutes);
-        setSeconds(countDown.getSeconds);
-        return prevRemainingSeconds <= 0
-          ? (clearInterval(intervalId), handleClearOrCancel(timerState), 0)
-          : prevRemainingSeconds - 1;
-      });
-    }, 1000);
-    timerState !== TimerState.Running ? clearInterval(intervalId) : null;
-    return () => {
-      clearInterval(intervalId);
-    };
   }, [timerState, remainingTime]);
 
+  // set title to timer when running
   useEffect(() => {
     switch (timerState) {
       case TimerState.Running:
