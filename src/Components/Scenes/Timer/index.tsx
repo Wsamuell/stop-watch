@@ -237,7 +237,9 @@ const Timer = ({ currentMode }: Props) => {
   useEffect(() => {
     switch (timerState) {
       case TimerState.Running:
-        document.title = `${days} : ${hours} : ${minutes} : ${seconds}`;
+        document.title = `${
+          days > 0 ? `${days} D :` : ''
+        } ${hours} H : ${minutes} M : ${seconds} S`;
         break;
       default:
         document.title = `Focus`;
