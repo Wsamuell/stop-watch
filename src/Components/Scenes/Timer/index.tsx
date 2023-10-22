@@ -22,7 +22,7 @@ import {
 } from '../../Helpers/TimeHelpers';
 import TimerComponentBox from '../../CommonStyles/TimerComponentBox';
 import ProgressBar from '../../CommonStyles/ProgressBar';
-import Serenity from '../../../assets/Music/Serenity.mp3';
+import ThankYou from '../../../assets/Music/ThankYou.mp3';
 import {
   cancelButtonColorMode,
   startButtonColorMode,
@@ -50,7 +50,7 @@ const Timer = ({ currentMode }: Props) => {
     useState<TimerProps['seconds']>(0);
 
   const [intervalId, setIntervalId] = useState<number | null>(null);
-  const audio = useMemo(() => new Audio(Serenity), []);
+  const audio = useMemo(() => new Audio(ThankYou), []);
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const DisabledStateStartButton =
